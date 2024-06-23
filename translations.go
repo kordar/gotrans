@@ -4,7 +4,6 @@ import (
 	"github.com/go-playground/locales"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	"github.com/kordar/gocfg"
 	"github.com/kordar/gologger"
 	"regexp"
 	"strings"
@@ -64,7 +63,7 @@ func (t *Translations) RegisterTranslationWithGI18n(tag string, section string, 
 	for locale, trans := range t.trans {
 
 		regFn := func(ut ut.Translator) error {
-			text := gocfg.GetGroupSectionValue(locale, section, key)
+			text := GetSectionValue(locale, section, key)
 			return ut.Add(tag, text, true) // see universal-translator for details
 		}
 
@@ -80,7 +79,7 @@ func (t *Translations) RegisterTranslationWithGI18n(tag string, section string, 
 				}
 			}
 
-			text := gocfg.GetGroupSectionValue(locale, "dictionary", fe.Field())
+			text := GetDictValue(locale, fe.Field())
 			if text == "" {
 				text = fe.Field()
 			}

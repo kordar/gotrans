@@ -1,11 +1,23 @@
 package gotrans
 
 import (
+	"github.com/kordar/gocfg"
 	logger "github.com/kordar/gologger"
 	"github.com/kordar/govalidator"
 )
 
-var translations *Translations
+var (
+	translations *Translations
+	i18nPkg      = "language"
+)
+
+func SetI18nPkg(pkg string) {
+	i18nPkg = pkg
+}
+
+func GetI18nPkg() string {
+	return i18nPkg
+}
 
 func GetTranslations() *Translations {
 	return translations
@@ -29,4 +41,12 @@ func RegValidation(valid govalidator.IValidation) {
 	if section, key := valid.I18n(); section != "" && key != "" {
 		translations.RegisterTranslationWithGI18n(valid.Tag(), section, key)
 	}
+}
+
+func GetSectionValue(locale string, section string, key string) string {
+	return gocfg.GetSectionValue(locale, section+"."+key, GetI18nPkg())
+}
+
+func GetDictValue(locale string, key string) string {
+	return gocfg.GetSectionValue(locale, "dictionary."+key, GetI18nPkg())
 }
