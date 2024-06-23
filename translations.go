@@ -37,7 +37,7 @@ func (t *Translations) RegisterTranslators(translators ...ITranslation) *Transla
 		translator := translation.GetTranslator()
 		err := t.uni.AddTranslator(translator, true)
 		if err != nil {
-			logger.Errorf("添加翻译器失败, err=%v", err)
+			logger.Errorf("failed to add \"translator\", err=%v", err)
 			continue
 		}
 		locale := translator.Locale()
@@ -89,7 +89,7 @@ func (t *Translations) RegisterTranslationWithGI18n(tag string, section string, 
 
 		err := t.validate.RegisterTranslation(tag, trans, regFn, transFn)
 		if err != nil {
-			logger.Errorf("注册翻译器[%s]失败", locale)
+			logger.Errorf("unable to register translator for locale value '%s', err=%v", locale, err)
 		}
 	}
 

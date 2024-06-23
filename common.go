@@ -26,7 +26,7 @@ func GetTranslations() *Translations {
 func InitValidateAndTranslations(tr ...ITranslation) {
 	validate := govalidator.GetValidate()
 	if validate == nil {
-		logger.Fatal("请先加载validate句柄")
+		logger.Fatal("please load the \"validate\" object first!")
 		return
 	}
 	translations = NewTranslations(validate).RegisterTranslators(tr...)
