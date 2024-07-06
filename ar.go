@@ -20,6 +20,6 @@ func (z ArTranslation) GetTranslator() locales.Translator {
 	return z.translator
 }
 
-func (z ArTranslation) RegisterValidate(trans ut.Translator, validate *validator.Validate) error {
+func (z ArTranslation) RegisterTranslatorAndValidate(trans ut.Translator, validate *validator.Validate) error {
 	return artranslations.RegisterDefaultTranslations(validate, trans)
 }

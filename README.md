@@ -1,5 +1,109 @@
-# 多语言配置管理
-- 采用ini配置文件
+# gotrans
+
+## 安装
+```go
+go get github.com/kordar/gotrans v0.1.0
+```
+
+## 自定义多语言
+
+自定义组件接口定义
+
+```go
+type GoTranslation interface {
+	GetTranslator() locales.Translator
+	RegisterTranslatorAndValidate(trans ut.Translator, validate *validator.Validate) error
+}
+```
+
+实现GoTranslation
+```go
+import (
+	"github.com/go-playground/locales"
+	"github.com/go-playground/locales/zh"
+	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/validator/v10"
+	zhtranslations "github.com/go-playground/validator/v10/translations/zh"
+)
+
+type ZhTranslation struct {
+	translator locales.Translator
+}
+
+func NewZhTranslation() *ZhTranslation {
+	return &ZhTranslation{translator: zh.New()}
+}
+
+func (z ZhTranslation) GetTranslator() locales.Translator {
+	return z.translator
+}
+
+func (z ZhTranslation) RegisterTranslatorAndValidate(trans ut.Translator, validate *validator.Validate) error {
+	return zhtranslations.RegisterDefaultTranslations(validate, trans)
+}
+```
+
+## 组件集成使用
+
+- 初始化组件
+
+```go
+func Init(tr ...gotrans.GoTranslation) {
+	gotrans.Initialize(tr...)
+}
+```
+
+- 集成[`govalidator`](github.com/kordar/govalidator)
+
+```go
+func AddValidate(validations ...govalidator.IValidation) {
+	for _, validation := range validations {
+		govalidator.AddValidation(validation)
+		if !gotrans.Exists() {
+			continue
+		}
+		trans := gotrans.Get()
+		trans.BindTranslatorToValidate(
+			validation.Tag(),
+			func(locale string) (string, bool) {
+				defaultTpl, override := validation.DefaultTpl()
+				section, key := validation.Tpl()
+				if section == "" || key == "" {
+					return defaultTpl, override
+				}
+				sk := fmt.Sprintf("%s.%s", section, key)
+				value := gocfg.GetSectionValue(locale, sk, "language")
+				if value == "" {
+					return defaultTpl, override
+				} else {
+					return value, override
+				}
+			},
+			func(locale string, fe validator.FieldError) []string {
+				n := validation.I18n(fe, locale)
+				if n == nil || len(n) == 0 {
+					text := gocfg.GetSectionValue(locale, "dictionary."+fe.StructNamespace(), "language")
+					if text == "" {
+						text = fe.Field()
+					}
+					return []string{text}
+				}
+				//logger.Infof("=========field======%+v", fe.Field())
+				//logger.Infof("=========param======%+v", fe.Param())
+				//logger.Infof("=========tag======%+v", fe.Tag())
+				//logger.Infof("=========error======%+v", fe.Error())
+				//logger.Infof("=========StructField======%+v", fe.StructField())
+				//logger.Infof("=========Namespace======%+v", fe.Namespace())
+				//logger.Infof("=========StructNamespace======%+v", fe.StructNamespace())
+				//logger.Infof("=========ActualTag======%+v", fe.ActualTag())
+				return n
+			})
+	}
+}
+```
+
+
+## 常用国家语言标识
 
 语言标识|国家地区  
 ---|:---  
