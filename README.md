@@ -53,7 +53,7 @@ func Init(tr ...gotrans.GoTranslation) {
 }
 ```
 
-- 集成[`govalidator`](github.com/kordar/govalidator)
+- 集成[`govalidator`](https://github.com/kordar/govalidator)
 
 ```go
 func AddValidate(validations ...govalidator.IValidation) {
