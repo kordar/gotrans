@@ -1,5 +1,7 @@
 # gotrans
 
+自 v0.1.x 起移除对 gologger 的依赖，内部使用标准库 log/slog 进行必要的日志输出；您也可以在上层接管/屏蔽日志。
+
 ## 安装
 ```go
 go get github.com/kordar/gotrans v0.1.0
@@ -88,14 +90,14 @@ func AddValidate(validations ...govalidator.IValidation) {
 					}
 					return []string{text}
 				}
-				//logger.Infof("=========field======%+v", fe.Field())
-				//logger.Infof("=========param======%+v", fe.Param())
-				//logger.Infof("=========tag======%+v", fe.Tag())
-				//logger.Infof("=========error======%+v", fe.Error())
-				//logger.Infof("=========StructField======%+v", fe.StructField())
-				//logger.Infof("=========Namespace======%+v", fe.Namespace())
-				//logger.Infof("=========StructNamespace======%+v", fe.StructNamespace())
-				//logger.Infof("=========ActualTag======%+v", fe.ActualTag())
+				//slog.Info("field info", "field", fe.Field())
+				//slog.Info("param info", "param", fe.Param())
+				//slog.Info("tag info", "tag", fe.Tag())
+				//slog.Info("error info", "error", fe.Error())
+				//slog.Info("struct field", "structField", fe.StructField())
+				//slog.Info("namespace", "namespace", fe.Namespace())
+				//slog.Info("struct namespace", "structNamespace", fe.StructNamespace())
+				//slog.Info("actual tag", "actualTag", fe.ActualTag())
 				return n
 			})
 	}

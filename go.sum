@@ -11,8 +11,6 @@ github.com/go-playground/universal-translator v0.18.1 h1:Bcnm0ZwsGyWbCzImXv+pAJn
 github.com/go-playground/universal-translator v0.18.1/go.mod h1:xekY+UJKNuX9WP91TpwSH2VMlDf28Uj24BCp08ZFTUY=
 github.com/go-playground/validator/v10 v10.20.0 h1:K9ISHbSaI0lyB2eWMPJo+kOS/FBExVwjEviJTixqxL8=
 github.com/go-playground/validator/v10 v10.20.0/go.mod h1:dbuPbCMFw/DrkbEynArYaCwl3amGuJotoKCe95atGMM=
-github.com/kordar/gologger v0.0.7 h1:356TijynbyAa8gMPIi2jq6HzU3SkHNs2qCZULJLBiK0=
-github.com/kordar/gologger v0.0.7/go.mod h1:hJF0BnPeo/QSJalJBF0eOG362WHez/Uc5SurSd5cdEo=
 github.com/kordar/govalidator v0.1.2 h1:/zWW8DAuGKvxmmk/YJF2wvzIaY9Ly0EcsF6JsHwRgc4=
 github.com/kordar/govalidator v0.1.2/go.mod h1:uR01ZVzcSFfAAD8AMuOn9pobWVaca44sJD8jdLKmw+s=
 github.com/leodido/go-urn v1.4.0 h1:WT9HwE9SGECu3lg4d/dIA+jxlljEa1/ffXKmRjqdmIQ=

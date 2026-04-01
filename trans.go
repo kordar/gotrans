@@ -1,9 +1,10 @@
 package gotrans
 
 import (
+	"log/slog"
+
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	logger "github.com/kordar/gologger"
 )
 
 type Trans struct {
@@ -30,7 +31,7 @@ func (t *Trans) RegisterTranslators(translators ...GoTranslation) *Trans {
 		// 将translator添加到国际化组件中
 		err := t.uni.AddTranslator(translator, true)
 		if err != nil {
-			logger.Errorf("failed to add \"translator\", err=%v", err)
+			slog.Error("failed to add translator", "err", err)
 			continue
 		}
 		locale := translator.Locale()
@@ -63,13 +64,13 @@ func (t *Trans) BindTranslatorToValidate(tag string, registerFn func(locale stri
 			tt := translationFn(locale, fe)
 			value, err := ut.T(tag, tt...)
 			if err != nil {
-				logger.Warnf("translation function execution failed, fe = %s, err = %v", fe.Field(), err)
+				slog.Warn("translation function execution failed", "field", fe.Field(), "err", err)
 			}
 			return value
 		})
 
 		if err != nil {
-			logger.Errorf("unable to register translator for locale value '%s', err=%v", locale, err)
+			slog.Error("unable to register translator for locale", "locale", locale, "err", err)
 		}
 	}
 

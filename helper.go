@@ -1,7 +1,9 @@
 package gotrans
 
 import (
-	logger "github.com/kordar/gologger"
+	"log/slog"
+	"os"
+
 	"github.com/kordar/govalidator"
 )
 
@@ -21,7 +23,8 @@ func Exists() bool {
 func Initialize(tr ...GoTranslation) {
 	validate := govalidator.GetValidate()
 	if validate == nil {
-		logger.Fatal("please load the \"validate\" object first!")
+		slog.Error("please load the \"validate\" object first!")
+		os.Exit(1)
 		return
 	}
 	translations = NewTrans(validate).RegisterTranslators(tr...)
